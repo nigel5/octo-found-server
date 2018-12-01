@@ -1,0 +1,24 @@
+{
+  "name": "octo-found-server",
+  "version": "1.0.0",
+  "description": "octo-found server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nigel5/octo-found-server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nigel5/octo-found-server/issues"
+  },
+  "homepage": "https://github.com/nigel5/octo-found-server#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "mongoose": "^5.3.14"
+  }
+}
