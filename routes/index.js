@@ -1,6 +1,9 @@
 const router = require('express').Router();
 const Item = require('../models/Item')
 
+router.get('/all', function (req, res, next) {
+    res.render('Something.....');
+});
  
  // get all item
 router.get('/', (req, res) => {

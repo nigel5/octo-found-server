@@ -3,8 +3,7 @@ const app = express();
 
 require("dotenv").config();
 const routes = require('./routes');
-
-const PORT = process.env.PORT || 5000;
+ 
 
 // require db connection
 require('./models');
@@ -18,7 +17,10 @@ app.use(express.json());
 
 app.use(routes);
 
-// Bootstrap server
-app.listen(PORT, () => {
-	console.log(`Server listening on port ${PORT}.`);
+
+// app.listen(process.env.PORT || 5000, () => {
+// 	console.log(`Server listening on port ${PORT}.`);
+// });
+app.listen(process.env.PORT || 5000, function () {
+    console.log('connect success');
 });
