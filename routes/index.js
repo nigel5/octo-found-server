@@ -9,7 +9,7 @@ router.get('/all', function (req, res, next) {
 router.get('/', (req, res) => {
     Item.find() 
     .then( items => {
-        res.status( 200 ).json( {items} )
+        res.status( 200 ).json( items )
       })
       .catch( err=> {
         res.status( 400 ).json( {err} )
@@ -20,7 +20,7 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
     Item.findById() 
     .then( item => {
-        res.status( 200 ).json( {item} )
+        res.status( 200 ).json( item )
       })
       .catch( err=> {
         res.status( 400 ).json( {err} )
@@ -32,20 +32,20 @@ router.get('/:id', (req, res) => {
  router.post('/new', (req, res) => { 
      console.log(req.body);
      Item.create(req.body) 
-    .then(newItem => res.json({newItem}) )
+    .then(newItem => res.json(newItem) )
     .catch( err => res.json( {err} ) ) 
 }) 
  // update a item
- router.put('/:id/update', (req, res) => { 
+ router.put('/:id', (req, res) => { 
     Item.findOneAndUpdate({
        _id: req.params.id
    },req.body) 
-    .then( item =>  res.json({item} ))
+    .then( item =>  res.json(item ))
     .catch( err => res.json( err)) 
     
 })
  // get delete a item
- router.delete('/:id/delete', (req, res) => { 
+ router.delete('/:id', (req, res) => { 
     Item.findById( { 
         _id: req.params.id
    }) 
