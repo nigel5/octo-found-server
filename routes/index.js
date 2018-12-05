@@ -2,57 +2,112 @@ const router = require('express').Router();
 const Item = require('../models/Item')
 
 router.get('/all', function (req, res, next) {
-    res.render('Something.....');
+    res.render("There's nothing here.....");
 });
- 
- // get all item
+
+// Fetch all items
 router.get('/', (req, res) => {
-    Item.find() 
-    .then( items => {
-        res.status( 200 ).json( items )
-      })
-      .catch( err=> {
-        res.status( 400 ).json( {err} )
-      }) 
+    Item.find({ status: { $ne: 'deleted' } })
+    .then((items) => {
+      res.status(200).json(items)
+    })
+    .catch((err) => {
+      res.status(500).json({err: err})
+    })
 })
 
-// get a item by ID
+// Fetch item by id
 router.get('/:id', (req, res) => {
-    Item.findById() 
-    .then( item => {
-        res.status( 200 ).json( item )
+  if (!req.params.id) return res.status(400)
+
+  Item.findById(req.params.id)
+  .then((item) => {
+    // No item with this id
+    if (!item) {
+      return res.status(404).json({err: "Not found"})
+    }
+
+    res.status(200).json(item)
+  })
+  .catch((err) => {
+    res.status(500).json({err: err})
+  })
+})
+
+// Add new item
+router.post('/new', (req, res) => {
+   // Verify request
+   if (!req.body.name || !req.body.comment || !req.body.imageURL || !req.body.status) {
+     return res.status(400).json({err: "Bad Request: Not enough information provided to fulfil"})
+   }
+
+    payload = {
+      name: req.body.name,
+      comment: req.body.comment,
+      imageURL: req.body.imageURL,
+      status: req.body.status,
+      dateAdded: req.body.dateAdded || Date.now()
+    }
+
+    Item.create(payload)
+    .then((newItem) => {
+      res.status(200).json(newItem)
+    })
+    .catch((err) => {
+      res.status(500).json({err: err})
+    })
+})
+ // Update item by id
+ router.put('/:id', (req, res) => {
+    if (!req.params.id) return res.status(400)
+    // Verify request has at least one param to update otherwise just return original
+    if (req.body.name || req.body.comment || req.body.imageURL || req.body.status) {
+      Item.findOneAndUpdate({ _id: req.params.id }, req.body)
+      .then((item) => {
+        res.status(200).json(item)
       })
-      .catch( err=> {
-        res.status( 400 ).json( {err} )
-      }) 
+      .catch((err) => {
+        res.status(500).json({err: err})
+      })
+    }
+    else {
+      Item.findById(req.params.id)
+      .then((item) => {
+        // No item with this id
+        if (!item) {
+          return res.status(404).json({err: "Not found"})
+        }
+
+        res.status(200).json(item)
+      })
+      .catch((err) => {
+        res.status(500).json({err: err})
+      })
+    }
+})
+ // Delete item by id (The item is not actually deleted, it it only marked as deleted)
+ router.delete('/:id', (req, res) => {
+    if (!req.params.id) return res.status(400)
+
+    Item.findOneAndUpdate({ _id: req.params.id }, { status: "deleted" })
+    .then((item) => {
+      res.status(200).json(item)
+    })
+    .catch((err) => {
+      res.status(500).json({err: err})
+    })
+
+   //  Item.findById( {
+   //      _id: req.params.id
+   // })
+   //  .then((item) => {
+   //    // item.remove()
+   //  })
+   //  .catch((err) => {
+   //    res.json({err: err})
+   //  })
 })
 
 
- // create a item
- router.post('/new', (req, res) => { 
-     console.log(req.body);
-     Item.create(req.body) 
-    .then(newItem => res.json(newItem) )
-    .catch( err => res.json( {err} ) ) 
-}) 
- // update a item
- router.put('/:id', (req, res) => { 
-    Item.findOneAndUpdate({
-       _id: req.params.id
-   },req.body) 
-    .then( item =>  res.json(item ))
-    .catch( err => res.json( err)) 
-    
-})
- // get delete a item
- router.delete('/:id', (req, res) => { 
-    Item.findById( { 
-        _id: req.params.id
-   }) 
-    .then(item => item.remove())
-    .catch( err =>  res.json( err ))  
-})
-
- 
 
 module.exports = router;

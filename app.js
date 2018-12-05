@@ -1,9 +1,9 @@
-const express = require('express'); 
+const express = require('express');
 const app = express();
 
 require("dotenv").config();
 const routes = require('./routes');
- 
+
 
 // require db connection
 require('./models');
@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // connect with client
- 
+
 
 app.use(routes);
 
@@ -22,5 +22,5 @@ app.use(routes);
 // 	console.log(`Server listening on port ${PORT}.`);
 // });
 app.listen(process.env.PORT || 5000, function () {
-    console.log('connect success');
+    console.log('octo-found-server started on port', process.env.PORT || 5000);
 });

@@ -4,7 +4,7 @@
   },
   "name": "octo-found-server",
   "version": "1.0.0",
-  "description": "octo-found server", 
+  "description": "octo-found server",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nigel5/octo-found-server.git"
