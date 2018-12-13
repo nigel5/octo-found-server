@@ -39,8 +39,14 @@ router.get('/:id', (req, res) => {
 // Add new item
 router.post('/new', (req, res) => {
     // Verify request
-    if (!req.body.name || !req.body.comment || !req.body.imageURL || !req.body.status) {
+    if (!req.body.name || !req.body.comment || !req.body.status) {
         return res.status(400).json({err: 'Bad Request: Not enough information provided to fulfil request'});
+    }
+
+    // Use a cat placeholder if no image is provided
+    if (!req.body.imageURL) {
+      req.body.imageURL = `https://placekitten.com/200/${Math.floor(Math.random() * 10)}`
+          +`${Math.floor(Math.random() * 10)}${Math.floor(Math.random() * 10)}`;
     }
 
     const payload = {
