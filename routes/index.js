@@ -44,8 +44,7 @@ router.post('/new', (req, res) => {
 
     // Use a cat placeholder if no image is provided
     if (!req.body.imageURL) {
-      req.body.imageURL = `https://placekitten.com/200/${Math.floor(Math.random() * 10)}`
-          +`${Math.floor(Math.random() * 10)}${Math.floor(Math.random() * 10)}`;
+      req.body.imageURL = `https://placekitten.com/200/200?image=${Math.floor((Math.random() * 16)}`;
     }
 
     const payload = {
