@@ -10,8 +10,7 @@ router.get('/all', function (req, res) {
 router.get('/', (req, res) => {
     Item.find({status: {$ne: 'deleted'}})
         .then((items) => {
-            console.log(items);
-            res.status(200).json(items);
+            res.status(200).json(Object.assign({}, items));
         })
         .catch((err) => {
             res.status(500).json({err: err});
